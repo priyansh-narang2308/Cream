@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "@/provider/ConvexClientProvider";
 
 const ubuntu = Atkinson_Hyperlegible({
   subsets: ["latin"],
-  weight: ["400","700"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ubuntu.className}`}>{children}</body>
+      <body className={`${ubuntu.className}`}>
+        <ClerkProvider
+          signInFallbackRedirectUrl={"/dashboard"}
+          signUpFallbackRedirectUrl={"/dashboard"}
+        >
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
