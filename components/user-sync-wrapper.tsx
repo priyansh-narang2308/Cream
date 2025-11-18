@@ -3,8 +3,10 @@
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LoadingSpinner } from "./loading-spinner";
+import streamClient from "@/lib/stream";
+import { createToken } from "@/actions/createToken";
 
 const UserSyncWrapper = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoaded: isUserLoaded } = useUser();
@@ -23,6 +25,16 @@ const UserSyncWrapper = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(true);
       setError(null);
 
+      // Create a token provider for stream
+      const tokenProvider = async () => {
+        if (!user?.id) {
+          throw new Error("User is not authenticated");
+        }
+
+        const token = await createToken(user.id);
+        return token;
+      };
+
       await createOrUpdateUser({
         userId: user?.id,
         name:
@@ -33,6 +45,20 @@ const UserSyncWrapper = ({ children }: { children: React.ReactNode }) => {
         email: user?.emailAddresses[0].emailAddress || "",
         imageUrl: user?.imageUrl || "",
       });
+
+      // Connect the usr  to stream
+      await streamClient.connectUser(
+        {
+          id: user?.id,
+          name:
+            user?.fullName ||
+            user?.firstName ||
+            user?.emailAddresses[0].emailAddress ||
+            "Unknown User",
+          image: user?.imageUrl || "",
+        },
+        tokenProvider
+      );
     } catch (error) {
       console.log("Failed to sync user: ", error);
       setError(error instanceof Error ? error.message : "Failed to sync user");
@@ -40,6 +66,33 @@ const UserSyncWrapper = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     }
   }, [createOrUpdateUser, user]);
+
+  // To disconnect the user
+  const disconnectUser = useCallback(async () => {
+    try {
+      await streamClient.disconnectUser();
+    } catch (error) {
+      console.log("Failed to disconnect User: ", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isUserLoaded) return;
+
+    if (user) {
+      syncUser();
+    } else {
+      disconnectUser();
+      setIsLoading(false);
+    }
+
+    // this is a cleanup function to clean every thing done so far
+    return () => {
+      if (user) {
+        disconnectUser();
+      }
+    };
+  }, [user, isUserLoaded, syncUser, disconnectUser]); //whenever these values change the useefect will call
 
   if (!isUserLoaded || isLoading) {
     return (

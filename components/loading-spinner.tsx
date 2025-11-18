@@ -27,11 +27,11 @@ export function LoadingSpinner({
 
   return (
     <div
-      className={
-        (cn("flex flex-col items-center  justify-center"),
+      className={cn(
+        "flex flex-col items-center justify-center w-full h-screen",
         containerPadding[size],
-        className)
-      }
+        className
+      )}
     >
       <div
         className={cn(
