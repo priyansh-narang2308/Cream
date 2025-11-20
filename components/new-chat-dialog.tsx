@@ -50,8 +50,8 @@ const NewChatDialog = ({ children }: { children: React.ReactNode }) => {
 
       <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Start a New Chat</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-center">Start a New Chat</DialogTitle>
+          <DialogDescription className="text-center">
             Search for users to start a conversation with
           </DialogDescription>
         </DialogHeader>
