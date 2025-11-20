@@ -3,6 +3,7 @@ import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "@/provider/ConvexClientProvider";
+import { Toaster } from "sonner";
 
 const ubuntu = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
           signUpFallbackRedirectUrl={"/dashboard"}
         >
           <ConvexClientProvider>{children}</ConvexClientProvider>
+          <Toaster />
         </ClerkProvider>
       </body>
     </html>
