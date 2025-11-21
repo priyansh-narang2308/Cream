@@ -9,6 +9,7 @@ import { PulsatingButton } from "@/components/ui/pulsating-button";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Github } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -23,11 +24,16 @@ export default function Home() {
   dark:from-pink-900 dark:via-fuchsia-900/25 dark:to-purple-900/20
   rounded-3xl blur-3xl opacity-70 scale-125"
           />
-
           <div className="w-full flex justify-center">
-            <RainbowButton className="px-6 py-3 text-base">
-              Star on Github <Github className="ml-2 h-4 w-4" />
-            </RainbowButton>
+            <Link
+              href="https://github.com/priyansh-narang2308/Cream"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <RainbowButton className="px-6 py-3 text-base">
+                Star on Github <Github className="ml-2 h-4 w-4" />
+              </RainbowButton>
+            </Link>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r  from-blue-600 via-purple-600 to-indigo-600  dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 leading-tight">
