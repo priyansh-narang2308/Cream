@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { Mail, Search, UserIcon, X } from "lucide-react";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { InlineSpinner } from "./loading-spinner";
 import Image from "next/image";
 
