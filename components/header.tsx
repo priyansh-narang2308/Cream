@@ -14,7 +14,7 @@ const Header = () => {
     <header className="flex items-center justify-between h-16 px-4 sm:px-6">
       <Link href="/dashboard" className="flex items-center gap-2">
         <span className="font-semibold tracking-widest uppercase text-lg ml-0 sm:ml-20">
-          Beam
+          Cream
         </span>
       </Link>
 

@@ -1,3 +1,3 @@
-# Beam - A video calling messaging app
+# Cream - A video calling messaging app
 
 ## use debounce

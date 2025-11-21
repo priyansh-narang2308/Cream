@@ -36,7 +36,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               />
               <Link href={"/dashboard"}>
                 <h1 className="text-lg font-bold tracking-wider uppercase">
-                  Beam
+                  Cream
                 </h1>
               </Link>
             </header>

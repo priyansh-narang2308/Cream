@@ -11,7 +11,7 @@ const ubuntu = Atkinson_Hyperlegible({
 });
 
 export const metadata: Metadata = {
-  title: "Beam",
+  title: "Cream",
   description: "A Chatting application using Stream for live video calling.",
 };
 

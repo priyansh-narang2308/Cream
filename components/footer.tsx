@@ -4,7 +4,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col gap-10">
         <div className="flex items-center justify-between w-full">
           <h2 className="text-lg font-semibold">
-            Beam <br />
+            Cream <br />
             <span className="text-xs text-center font-light ">
               &copy; 2025
             </span>
