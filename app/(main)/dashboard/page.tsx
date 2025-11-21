@@ -35,9 +35,11 @@ const Dashboard = () => {
   const { channel, setActiveChannel } = useChatContext();
 
   const handleCall = () => {
-    console.log("Handle Calls");
-
-    // 2:32:50
+    if (!channel) {
+      return;
+    }
+    router.push(`/dashboard/video-call/${channel?.id}`);
+    setOpen(false);
   };
 
   const handleLeaveChat = async () => {
@@ -95,7 +97,9 @@ const Dashboard = () => {
                     </AlertDialogHeader>
 
                     <AlertDialogFooter>
-                      <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="cursor-pointer">
+                        Cancel
+                      </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleLeaveChat}
                         className="bg-red-600 text-white hover:bg-red-700 cursor-pointer"
