@@ -2,7 +2,7 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { useUserSearch } from "@/hooks/use-user-search";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-import { Mail, Search, UserIcon, X } from "lucide-react";
+import { Mail, Search, User2, X } from "lucide-react";
 import { Input } from "./ui/input";
 import { InlineSpinner } from "./loading-spinner";
 import Image from "next/image";
@@ -67,7 +67,7 @@ const SearchUser = ({
             </div>
           ) : filteredUser.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
-              <UserIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
+              <User2 className="h-8 w-8 mx-auto mb-2 opacity-50" />
               <p>No users found matching &quot;{searchTerm}&quot;</p>
             </div>
           ) : (
