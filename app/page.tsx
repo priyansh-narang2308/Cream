@@ -31,16 +31,16 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r  from-blue-600 via-purple-600 to-indigo-600  dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 leading-tight">
-            Connect instantly.
-            <br />
+            Talk with Anyone. <br />
             <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-pink-600  dark:from-purple-400 dark:to-pink-400">
-              Chat smarter.
+              Anytime. Anywhere.{" "}
             </span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            A fast, private, beautifully simple platform built for real-time
-            conversations that feel effortless.
+            A clean, modern chat platform built for speed, privacy, and
+            effortless conversations. No noise, no clutter - just pure
+            communication.
           </p>
         </div>
 

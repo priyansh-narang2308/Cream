@@ -36,6 +36,8 @@ const Dashboard = () => {
 
   const handleCall = () => {
     console.log("Handle Calls");
+
+    // 2:32:50
   };
 
   const handleLeaveChat = async () => {
