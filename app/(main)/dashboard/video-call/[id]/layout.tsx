@@ -1,4 +1,6 @@
 import { createToken } from "@/actions/createToken";
+import { InlineSpinner } from "@/components/loading-spinner";
+import StatusCardVideoCall from "@/components/status-card-video-call";
 import { useUser } from "@clerk/nextjs";
 import {
   CallingState,
@@ -6,11 +8,9 @@ import {
   StreamVideo,
   StreamVideoClient,
   StreamTheme,
-  useCall,
-  useCallStateHooks,
-  type User,
   Call,
 } from "@stream-io/video-react-sdk";
+import { AlertTriangle, Video } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -100,12 +100,56 @@ const VideoCallLayout = ({ children }: { children: React.ReactNode }) => {
     };
   }, [id, client]);
 
+  if (error) {
+    return (
+      <StatusCardVideoCall
+        title="Call Error"
+        description={error}
+        className="min-h-screen bg-red-50"
+        action={
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          >
+            Retry
+          </button>
+        }
+      >
+        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+          <AlertTriangle className="w-8 h-8 text-red-600" />{" "}
+        </div>
+      </StatusCardVideoCall>
+    );
+  }
+
   if (!client) {
-    return <div>Loading ...client</div>;
+    return (
+      <StatusCardVideoCall
+        title="Initializing Client..."
+        description="Setting up video call connection..."
+        className="min-h-screen bg-blue-50"
+      >
+        <InlineSpinner size="lg" />
+      </StatusCardVideoCall>
+    );
   }
 
   if (!call) {
-    return <div>Loading ...call</div>;
+    return (
+      <StatusCardVideoCall
+        title="Joining call..."
+        className="min-h-screen bg-green-50"
+      >
+        <div className="animate-bounce h-16 w-16 mx-auto">
+          <div className="w-16 h-16 bg-green-200 rounded-full flex items-center justify-center">
+            <Video className="w-8 h-8 text-green-600" />{" "}
+          </div>
+        </div>
+        <div className="text-green-600 font-mono text-sm bg-green-100 px-3 py-1 rounded-full inline-block">
+          Call ID: {id}
+        </div>
+      </StatusCardVideoCall>
+    );
   }
 
   return (
