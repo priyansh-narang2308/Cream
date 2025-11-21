@@ -49,6 +49,28 @@ const NewChatDialog = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const handleCreateChat = async () => {
+    const totalMemebers = selectedUsers.length + 1; //+1 for the current logged in user
+    const isGroupChat = totalMemebers > 2;
+
+    const channel = await createNewChat({
+      members: [
+        user?.id as string,
+        ...selectedUsers.map((user) => user.userId),
+      ],
+      createdBy: user?.id as string,
+      groupName: isGroupChat ? groupName.trim() || undefined : undefined,
+    });
+
+    // !if not then dont know from sidebar or not
+    setActiveChannel(channel);
+
+    // to reste it
+    setSelectedUsers([]);
+    setGroupName("");
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -133,12 +155,13 @@ const NewChatDialog = ({ children }: { children: React.ReactNode }) => {
           )}
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button variant="outline" onClick={() => setOpen(false)} className="cursor-pointer">
               Cancel
             </Button>
             <Button
+            className="cursor-pointer"
               disabled={selectedUsers.length === 0}
-              // onClick={handleCreateChat}
+              onClick={handleCreateChat}
             >
               {selectedUsers.length > 1
                 ? `Create Group Chat (${selectedUsers.length + 1} members)`

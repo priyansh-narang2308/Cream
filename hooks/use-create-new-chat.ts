@@ -56,8 +56,7 @@ export const useCreateNewChat = () => {
         members,
         created_by_id: createdBy,
       };
-
-      if (!isGroupChat) {
+      if (isGroupChat) {
         channelData.name =
           groupName || `Group chat (${members.length} members)`;
       }

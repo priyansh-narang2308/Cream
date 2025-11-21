@@ -5,14 +5,27 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { useUser } from "@clerk/nextjs";
 import { LogOutIcon, MessageSquareText, VideoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import {
   Channel,
   ChannelHeader,
+  MessageInput,
   MessageList,
   Thread,
   useChatContext,
   Window,
 } from "stream-chat-react";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -25,8 +38,20 @@ const Dashboard = () => {
     console.log("Handle Calls");
   };
 
-  const handleLeaveChat = () => {
-    console.log("Leaving chat...");
+  const handleLeaveChat = async () => {
+    if (!channel || !user?.id) {
+      toast.error("No active channel or user");
+      return;
+    }
+
+    try {
+      await channel.removeMembers([user.id]);
+      setActiveChannel(undefined);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error leaving chat: ", error);
+      toast.error("Error leaving chat! Please try again later.");
+    }
   };
 
   return (
@@ -42,24 +67,48 @@ const Dashboard = () => {
               )}
 
               <div className="flex items-center gap-2">
-                <Button variant={"outline"} onClick={handleCall} className="cursor-pointer">
+                <Button
+                  variant={"outline"}
+                  onClick={handleCall}
+                  className="cursor-pointer"
+                >
                   <VideoIcon className="w-4 h-4" />
                   Video Call
                 </Button>
 
-                <Button
-                  onClick={handleLeaveChat}
-                  variant={"destructive"}
-                  className="text-red-500 hover:text-red-600 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950"
-                >
-                  <LogOutIcon className="w-4 h-4" />
-                  Leave Chat
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="cursor-pointer">
+                      <LogOutIcon className="w-4 h-4" />
+                      Leave Chat
+                    </Button>
+                  </AlertDialogTrigger>
+
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Leave this chat?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        You will be removed from this conversation.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleLeaveChat}
+                        className="bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+                      >
+                        Leave
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
+            </div>
+            <MessageList />
 
-              <MessageList />
-
-              <div className="sticky bottom-0 w-full"></div>
+            <div className="sticky bottom-0 w-full">
+              <MessageInput />
             </div>
           </Window>
           <Thread />
