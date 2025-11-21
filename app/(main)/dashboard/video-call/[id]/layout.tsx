@@ -1,3 +1,5 @@
+"use client"
+
 import { createToken } from "@/actions/createToken";
 import { InlineSpinner } from "@/components/loading-spinner";
 import StatusCardVideoCall from "@/components/status-card-video-call";
@@ -14,6 +16,8 @@ import { AlertTriangle, Video } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+
+import "@stream-io/video-react-sdk/dist/css/styles.css"
 
 if (!process.env.NEXT_PUBLIC_STREAM_API_KEY) {
   throw new Error("NEXT_PUBLIC_STREAM_API_KEY not set");
